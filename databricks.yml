@@ -1,0 +1,12 @@
+bundle:
+  name: mle_supply_chain_pipeline
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-b081165c-3803.cloud.databricks.com

@@ -1,0 +1,55 @@
+resources:
+  jobs:
+    supply_chain_demand_pipeline:
+      name: supply_chain_demand_pipeline
+
+      environments:
+        - environment_key: base_environment
+          spec:
+            environment_version: "6"
+        - environment_key: model_training_environment
+          spec:
+            environment_version: "6"
+            dependencies:
+              - catboost
+
+      tasks:
+        - task_key: bronze_ingestion
+          environment_key: base_environment
+          spark_python_task:
+            python_file: ../src/data_engineering/bronze_ingestion.py
+
+        - task_key: silver_transformation
+          depends_on:
+            - task_key: bronze_ingestion
+          environment_key: base_environment
+          spark_python_task:
+            python_file: ../src/data_engineering/silver_transformation.py
+
+        - task_key: gold_features
+          depends_on:
+            - task_key: silver_transformation
+          environment_key: base_environment
+          spark_python_task:
+            python_file: ../src/data_engineering/gold_features.py
+
+        - task_key: feature_store
+          depends_on:
+            - task_key: gold_features
+          environment_key: base_environment
+          spark_python_task:
+            python_file: ../src/data_engineering/feature_store.py
+
+        - task_key: model_training
+          depends_on:
+            - task_key: feature_store
+          environment_key: model_training_environment
+          spark_python_task:
+            python_file: ../src/model_training/model_training.py
+
+        - task_key: predictions
+          depends_on:
+            - task_key: model_training
+          environment_key: model_training_environment
+          spark_python_task:
+            python_file: ../src/inference/predictions.py
