@@ -1,0 +1,25 @@
+name: Deploy bundle to Databricks
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Install the Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate the bundle
+        run: databricks bundle validate -t dev
+
+      - name: Deploy the bundle
+        run: databricks bundle deploy -t dev
