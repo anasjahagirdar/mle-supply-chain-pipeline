@@ -12,7 +12,7 @@ from pyspark.sql.types import (
 # ----------------------------------------------------------------------
 # Configuration
 # ----------------------------------------------------------------------
-SOURCE_PATH  = "/Volumes/mle_project/bronze/raw_files/supply_chain_dataset.csv"
+SOURCE_PATH  = "/Volumes/mle_project/bronze/raw_files/supply_chain_dataset_wrong.csv"
 TARGET_TABLE = "mle_project.bronze.supply_chain_raw"
 
 
