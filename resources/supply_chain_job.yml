@@ -3,6 +3,12 @@ resources:
     supply_chain_demand_pipeline:
       name: supply_chain_demand_pipeline
 
+      email_notifications:
+        on_success:
+          - anasjahagirdar1234@gmail.com
+        on_failure:
+          - anasjahagirdar1234@gmail.com
+
       environments:
         - environment_key: base_environment
           spec:
