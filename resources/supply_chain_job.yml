@@ -9,6 +9,11 @@ resources:
         on_failure:
           - anasjahagirdar1234@gmail.com
 
+      schedule:
+        quartz_cron_expression: "0 00 13 * * ?"
+        timezone_id: "Asia/Kolkata"
+        pause_status: UNPAUSED
+
       environments:
         - environment_key: base_environment
           spec:
